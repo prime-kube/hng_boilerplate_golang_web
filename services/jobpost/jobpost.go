@@ -1,4 +1,4 @@
-package service
+package jobpost
 
 import (
 	"github.com/hngprojects/hng_boilerplate_golang_web/internal/models"
