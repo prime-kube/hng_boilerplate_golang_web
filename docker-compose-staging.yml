@@ -6,7 +6,7 @@ services:
     env_file:
       - app.env
     volumes:
-      - ../pgsql_volumes/golang_staging/:/var/lib/postgresql/data
+      - ../golang_volumes/pgsql_volumes/golang_staging/:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U staging_user"]
       interval: 10s
@@ -15,6 +15,8 @@ services:
 
   redis:
     image: redis:latest
+    volumes:
+      - ../golang_volumes/redis_volumes/golang_staging/:/data
 
   backend:
     image: golang_staging

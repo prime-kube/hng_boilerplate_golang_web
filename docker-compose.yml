@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: development_user
     volumes:
-      - ../pgsql_volumes/golang_dev/:/var/lib/postgresql/data
+      - ../golang_volumes/pgsql_volumes/golang_dev/:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U development_user"]
       interval: 10s
@@ -19,6 +19,8 @@ services:
 
   redis:
     image: redis:latest
+    volumes:
+      - ../golang_volumes/redis_volumes/golang_dev/:/data
 
   backend:
     image: golang_dev

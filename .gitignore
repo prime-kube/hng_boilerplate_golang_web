@@ -29,5 +29,9 @@ app.env
 tmp/
 .idea/
 
-
+dump.rdb
 app.env 
+
+development_app
+staging_app
+production_app
