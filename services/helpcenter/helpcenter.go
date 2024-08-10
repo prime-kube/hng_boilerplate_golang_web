@@ -1,4 +1,4 @@
-package service
+package helpcenter
 
 import (
 
@@ -8,13 +8,6 @@ import (
 	"github.com/hngprojects/hng_boilerplate_golang_web/utility"
 	"gorm.io/gorm"
 )
-
-type HelpCntSummary struct {
-	ID			string `json:"id"`
-	Title       string `json:"title"`
-	Content 	string `json:"content"`
-	Author      string `json:"author"`
-}
 
 func CreateHelpCenterTopic(req models.CreateHelpCenter, db *gorm.DB) (models.HelpCenter, error) {
 	helpCnt := models.HelpCenter{
@@ -33,21 +26,21 @@ func CreateHelpCenterTopic(req models.CreateHelpCenter, db *gorm.DB) (models.Hel
 	return helpCnt, nil
 }
 
-func GetPaginatedTopics(c *gin.Context, db *gorm.DB) ([]HelpCntSummary, postgresql.PaginationResponse, error) {
+func GetPaginatedTopics(c *gin.Context, db *gorm.DB) ([]models.HelpCntSummary, postgresql.PaginationResponse, error) {
 	helpCnt := models.HelpCenter{}
-	helpCnts, paginationResponse, err := helpCnt.FetchAllTopics(db, c)
+	topics, paginationResponse, err := helpCnt.FetchAllTopics(db, c)
 
 	if err != nil {
 		return nil, paginationResponse, err
 	}
 
-	if len(helpCnts) == 0 {
-		return nil, paginationResponse, gorm.ErrRecordNotFound
+	if len(topics) == 0 {
+		return []models.HelpCntSummary{}, paginationResponse, nil
 	}
 	
-	var topicSummaries []HelpCntSummary
-	for _, Hlp := range helpCnts {
-		summary := HelpCntSummary{
+	var topicSummaries []models.HelpCntSummary
+	for _, Hlp := range topics {
+		summary := models.HelpCntSummary{
 			ID: 		 Hlp.ID,
 			Title:       Hlp.Title,
 			Content:     Hlp.Content,
@@ -69,7 +62,7 @@ func FetchTopicByID(db *gorm.DB, id string) (models.HelpCenter, error) {
 	return helpCnt, nil
 }
 
-func SearchHelpCenterTopics(c *gin.Context, db *gorm.DB, query string) ([]HelpCntSummary, postgresql.PaginationResponse, error) {
+func SearchHelpCenterTopics(c *gin.Context, db *gorm.DB, query string) ([]models.HelpCntSummary, postgresql.PaginationResponse, error) {
 	var helpCnt models.HelpCenter
 	topics, paginationResponse, err := helpCnt.SearchHelpCenterTopics(db, c, query)
 
@@ -78,12 +71,12 @@ func SearchHelpCenterTopics(c *gin.Context, db *gorm.DB, query string) ([]HelpCn
 	}
 
 	if len(topics) == 0 {
-		return nil, paginationResponse, gorm.ErrRecordNotFound
+		return []models.HelpCntSummary{}, paginationResponse, nil
 	}
 
-	var topicSummaries []HelpCntSummary
+	var topicSummaries []models.HelpCntSummary
 	for _, topic := range topics {
-		summary := HelpCntSummary{
+		summary := models.HelpCntSummary{
 			ID:      topic.ID,
 			Title:   topic.Title,
 			Content: topic.Content,

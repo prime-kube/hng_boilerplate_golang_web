@@ -49,7 +49,6 @@ func ResponseMessage(code int, status string, name string, message string, err i
 	res := Response{
 		StatusCode: code,
 		Name:       name,
-		Status:     status,
 		Message:    message,
 		Error:      err,
 		Data:       data,

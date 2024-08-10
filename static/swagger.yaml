@@ -37,12 +37,16 @@ tags:
     description: API for timezone related operations
   - name: region
     description: API for region related operations
-  - name: organization
+  - name: organisation
     description: API for organization related operations
   - name: blogs
     description: API for blogs related operations
   - name: products
     description: API for products related operations
+  - name: squeeze
+    description: API for squeeze related operations
+  - name: testimonials
+    description: API for testimonials related operations
 
 paths:
 
@@ -693,6 +697,102 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerErrorSchema'
 
+  /auth/2fa/enable:
+    post:
+      tags:
+        - auth
+      summary: Enable two-factor authentication
+      security:
+        - bearerAuth: []
+      responses:
+          '201':
+            description: Two-factor authentication enabled successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: "success"
+                    message:
+                      type: string
+                      example: "Two-factor authentication enabled successfully"
+                    statusCode:
+                      type: integer
+                      example: 201
+                    data:
+                        type: object
+                        properties:
+                          secret:
+                            type: string
+                            example: "secret"
+                          qr_code:
+                            type: string
+                            example: "qr_code"
+          '400':
+            description: Invalid input
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequestErrorSchema'
+      
+
+  /auth/2fa/verify:
+    post:
+      tags:
+        - auth
+      summary: Verify two-factor authentication
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+              required:
+                - token
+      responses:
+        '200':
+          description: Token verified successfully
+          content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: "success"
+                statusCode:
+                  type: integer
+                  example: 200
+                message:
+                  type: string
+                  example: "Token verified successfully"
+                data:
+                  $ref: "#/components/schemas/UserSchema"
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestErrorSchema'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnprocessedEntityErrorSchema'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorSchema'
   #User path
   /users/{userId}:
     get:
@@ -1829,7 +1929,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerErrorSchema'
 
-  /organizations/{org_id}/roles:
+  /organisations/{org_id}/roles:
     post:
       tags:
         - roles
@@ -1930,7 +2030,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerErrorSchema'
 
-  /organizations/{org_id}/roles/{role_id}:
+  /organisations/{org_id}/roles/{role_id}:
     get:
       tags:
         - roles
@@ -2105,7 +2205,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerErrorSchema'
 
-  /organizations/{org_id}/roles/{role_id}/permissions:
+  /organisations/{org_id}/roles/{role_id}/permissions:
     patch:
       tags:
         - roles
@@ -2360,10 +2460,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
             
   
-  /organizations:
+  /organisations:
     post:
       tags:
-        - organization
+        - organisation
       summary: create an organization
       security:
         - bearerAuth: []
@@ -2408,7 +2508,7 @@ paths:
 
     get:
       tags:
-        - organization
+        - organisation
       summary: Query organisations where a user belongs
       security:
         - bearerAuth: []
@@ -2449,10 +2549,10 @@ paths:
                 $ref: '#/components/schemas/ServerErrorSchema'
                 
                 
-  /organizations/{orgId}:
+  /organisations/{orgId}:
     patch:
       tags:
-        - organization
+        - organisation
       summary: update an organization
       security:
         - bearerAuth: []
@@ -2504,7 +2604,7 @@ paths:
                 
     get:
       tags:
-        - organization
+        - organisation
       summary: retrieve an organization
       security:
         - bearerAuth: []
@@ -2550,7 +2650,7 @@ paths:
                 
     delete:
       tags:
-        - organization
+        - organisation
       summary: Delete an organisation by id
       security:
         - bearerAuth: []
@@ -2603,10 +2703,10 @@ paths:
                 $ref: "#/components/schemas/ServerErrorSchema"
                 
                 
-  /organizations/{orgId}/users:
+  /organisations/{orgId}/users:
     post:
       tags:
-        - organization
+        - organisation
       summary: add a user to an organization by superadmin
       security:
         - bearerAuth: []
@@ -2671,7 +2771,7 @@ paths:
                 
     get:
       tags:
-        - organization
+        - organisation
       summary: Get users in an organization
       security:
         - bearerAuth: []
@@ -3136,7 +3236,205 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerErrorSchema'  
+                $ref: '#/components/schemas/ServerErrorSchema'
+                
+  /squeeze:
+    post:
+        tags:
+          - squeeze
+        summary: Create a squeeze record
+        description: creates a new squeeze record
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    format: email
+                    example: "user@example.com"
+                  first_name:
+                    type: string
+                    example: "John"
+                  last_name:
+                    type: string
+                    example: "Doe"
+                  phone:
+                    type: string
+                    example: "08098761234"
+                  location:
+                    type: string
+                    example: "Lagos, Nigeria"
+                  job_title:
+                    type: string
+                    example: "Software Engineer"
+                  company:
+                    type: string
+                    example: "X-Corp"
+                  interests:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Web Development", "Cloud Computing"]
+                  referral_source:
+                    type: string
+                    example: "LinkedIn"
+        responses:
+          '201':
+            description: Successfully created the resource
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: "success"
+                    message:
+                      type: string
+                      example: "Your request has been received. You will get a template shortly."
+                    data:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: "uuid"
+                        email:
+                          type: string
+                          format: email
+                          example: "user@example.com"
+                        first_name:
+                          type: string
+                          example: "John"
+                        last_name:
+                          type: string
+                          example: "Doe"
+                        phone:
+                          type: string
+                          example: "08098761234"
+                        location:
+                          type: string
+                          example: "Lagos, Nigeria"
+                        job_title:
+                          type: string
+                          example: "Software Engineer"
+                        company:
+                          type: string
+                          example: "X-Corp"
+                        interests:
+                          type: array
+                          items:
+                            type: string
+                          example: ["Web Development", "Cloud Computing"]
+                        referral_source:
+                          type: string
+                          example: "LinkedIn"
+                        created_at:
+                          type: string
+                          format: date
+                          example: "12-03-2024"
+                        updated_at:
+                          type: string
+                          format: date
+                          example: "12-03-2024"
+          '400':
+              description: Bad Request
+              content:
+               application/json:
+                  schema:
+                    $ref: '#/components/schemas/BadRequestErrorSchema'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                 $ref: '#/components/schemas/ServerErrorSchema'
+                 
+      
+  /testimonials:
+    post:
+        tags:
+          - testimonials
+        summary: Create a new testimonial
+        description: Creates a new testimonial.
+        security:
+        - bearerAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "Charles Ugberaese"
+                  content:
+                    type: string
+                    example: "The service is fantastic, great experience."
+                required:
+                  - name
+                  - content
+        responses:
+          '201':
+            description: Testimonial created successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: "success"
+                    message:
+                      type: string
+                      example: "Testimonial created successfully"
+                    data:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                        user_id:
+                          type: string
+                          format: uuid
+                          example: "0b89cd08-57fc-40b0-aa17-ed6d95f43cfe"
+                        name:
+                          type: string
+                          example: "Charles Ugberaese"
+                        content:
+                          type: string
+                          example: "The service is fantastic, great experience."
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: "2024-07-18T00:00:00Z"
+          '400':
+              description: Bad Request
+              content:
+               application/json:
+                  schema:
+                    $ref: '#/components/schemas/BadRequestErrorSchema'
+          '401':
+            description: Authentication error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedErrorSchema'
+          '500':
+            description: Server error
+            content:
+              application/json:
+                schema:
+                 $ref: '#/components/schemas/ServerErrorSchema'
+          
+
+
+        
                  
 # product routes    
   /products:
@@ -4367,7 +4665,7 @@ paths:
       security:
         - bearerAuth: []
         
-  /api/v1/notifications:
+  /notifications/global:
     post:
       tags:
         - notifications
@@ -4460,6 +4758,7 @@ paths:
       security:
         - bearerAuth: []
 
+  /notifications/all:
     get:
       tags:
         - notifications
@@ -4543,7 +4842,7 @@ paths:
       security:
         - bearerAuth: []
 
-  /api/v1/notifications/:
+  /notifications/unread:
     get:
       tags:
         - notifications
@@ -4634,7 +4933,7 @@ paths:
       security:
         - bearerAuth: []
 
-  /api/v1/notifications/{notification_id}:
+  /notifications/{notification_id}:
     patch:
       tags:
         - notifications
@@ -4824,7 +5123,7 @@ paths:
       security:
         - bearerAuth: []
 
-  /api/v1/notification-settings:
+  /settings/notification-settings:
     patch:
       tags:
         - notification_settings
