@@ -9,7 +9,7 @@ import (
 	"github.com/hngprojects/hng_boilerplate_golang_web/external/request"
 	"github.com/hngprojects/hng_boilerplate_golang_web/internal/models"
 	"github.com/hngprojects/hng_boilerplate_golang_web/pkg/repository/storage"
-	"github.com/hngprojects/hng_boilerplate_golang_web/services/jobpost"
+	service "github.com/hngprojects/hng_boilerplate_golang_web/services/jobpost"
 	"github.com/hngprojects/hng_boilerplate_golang_web/utility"
 	"gorm.io/gorm"
 )
@@ -29,8 +29,6 @@ func (base *Controller) CreateJobPost(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, rd)
 		return
 	}
-
-	// req.Sanitize()
 
 	if err := base.Validator.Struct(&req); err != nil {
 		rd := utility.BuildErrorResponse(http.StatusUnprocessableEntity, "error", "Validation failed", utility.ValidationResponse(err, base.Validator), nil)
