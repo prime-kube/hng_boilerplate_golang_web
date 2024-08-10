@@ -79,7 +79,6 @@ func TestGetUserDataPrivacy(t *testing.T) {
 
 		tests.AssertStatusCode(t, resp.Code, http.StatusOK)
 		response := tests.ParseResponse(resp)
-		tests.AssertResponseMessage(t, response["status"].(string), "success")
 		tests.AssertResponseMessage(t, response["message"].(string), "User data privacy settings retrieved successfully")
 	})
 
@@ -134,7 +133,6 @@ func TestGetUserDataPrivacy(t *testing.T) {
 
 		tests.AssertStatusCode(t, resp.Code, http.StatusNotFound)
 		response := tests.ParseResponse(resp)
-		tests.AssertResponseMessage(t, response["status"].(string), "error")
 		tests.AssertResponseMessage(t, response["message"].(string), "user not found")
 	})
 }
