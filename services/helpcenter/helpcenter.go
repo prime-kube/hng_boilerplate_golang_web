@@ -1,4 +1,4 @@
-package service
+package helpcenter
 
 import (
 
@@ -28,18 +28,18 @@ func CreateHelpCenterTopic(req models.CreateHelpCenter, db *gorm.DB) (models.Hel
 
 func GetPaginatedTopics(c *gin.Context, db *gorm.DB) ([]models.HelpCntSummary, postgresql.PaginationResponse, error) {
 	helpCnt := models.HelpCenter{}
-	helpCnts, paginationResponse, err := helpCnt.FetchAllTopics(db, c)
+	topics, paginationResponse, err := helpCnt.FetchAllTopics(db, c)
 
 	if err != nil {
 		return nil, paginationResponse, err
 	}
 
-	if len(helpCnts) == 0 {
+	if len(topics) == 0 {
 		return []models.HelpCntSummary{}, paginationResponse, nil
 	}
 	
 	var topicSummaries []models.HelpCntSummary
-	for _, Hlp := range helpCnts {
+	for _, Hlp := range topics {
 		summary := models.HelpCntSummary{
 			ID: 		 Hlp.ID,
 			Title:       Hlp.Title,
@@ -71,7 +71,7 @@ func SearchHelpCenterTopics(c *gin.Context, db *gorm.DB, query string) ([]models
 	}
 
 	if len(topics) == 0 {
-		return nil, paginationResponse, gorm.ErrRecordNotFound
+		return []models.HelpCntSummary{}, paginationResponse, nil
 	}
 
 	var topicSummaries []models.HelpCntSummary
