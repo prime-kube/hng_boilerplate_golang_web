@@ -1,28 +1,28 @@
-name: PR Deploy for Production
+name: PR Deploy for Development
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened, closed]
+  # pull_request:
+  #   branches: [dev]
+  #   types: [opened, synchronize, reopened, closed]
   workflow_dispatch:
 
 jobs:
   deploy-pr:
     environment: 
-      name: production
-    #   url: ${{ steps.deploy.outputs.preview-url }}
+      name: development
+      # url: ${{ steps.deploy.outputs.preview-url }}
     runs-on: ubuntu-latest
     env:
-        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-        SSH_HOST: ${{ secrets.SSH_HOST }}
-        SSH_PORT: ${{ secrets.SSH_PORT }}
-        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
     steps:
       - name: Checkout to branch
         uses: actions/checkout@v4
       - id: deploy
         name: Pull Request Deploy
-        uses: hngprojects/pr-deploy@main
+        uses: hngprojects/pr-deploy@dev
         with:
           server_host: ${{ env.SSH_HOST }}
           server_username: ${{ env.SSH_USERNAME }}
