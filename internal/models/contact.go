@@ -13,7 +13,6 @@ type ContactUs struct {
 	ID        string         `gorm:"type:uuid;primary_key;" json:"id"`
 	Name      string         `gorm:"type:varchar(100);not null" json:"name" binding:"required" validate:"required"`
 	Email     string         `gorm:"type:varchar(100);not null;index" json:"email" binding:"required" validate:"required,email"`
-	Subject   string         `gorm:"type:varchar(255);not null" json:"subject" binding:"required" validate:"required"`
 	Message   string         `gorm:"type:text;not null" json:"message" binding:"required" validate:"required"`
 	CreatedAt time.Time      `gorm:"type:timestamp;default:current_timestamp" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"type:timestamp;default:current_timestamp" json:"updated_at"`

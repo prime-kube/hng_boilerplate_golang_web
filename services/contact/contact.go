@@ -34,7 +34,6 @@ func GetAllContactUs(c *gin.Context, db *gorm.DB) ([]models.ContactUs, *postgres
 
 func AddToContactUs(contact *models.ContactUs, db *gorm.DB) error {
 
-	contact.Subject = utility.CleanStringInput(contact.Subject)
 	contact.Message = utility.CleanStringInput(contact.Message)
 
 	if err := contact.CreateContactUs(db); err != nil {
@@ -44,7 +43,6 @@ func AddToContactUs(contact *models.ContactUs, db *gorm.DB) error {
 	msgReq := models.ContactUs{
 		Email:   contact.Email,
 		Name:    contact.Name,
-		Subject: contact.Subject,
 		Message: contact.Message,
 	}
 

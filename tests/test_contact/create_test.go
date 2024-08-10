@@ -54,7 +54,6 @@ func TestAddToContactUs(t *testing.T) {
 		contactData := models.ContactUs{
 			Name:    "John Doe",
 			Email:   "johndoe@example.com",
-			Subject: "</br><i>Inquiry about services3 with html",
 			Message: "I would like to know more about your services3.",
 		}
 		payload, _ := json.Marshal(contactData)
@@ -115,7 +114,6 @@ func TestAddToContactUs(t *testing.T) {
 		contactData := models.ContactUs{
 			Name:    "John Doe",
 			Email:   "invalid_email",
-			Subject: "test subject",
 			Message: "message test",
 		}
 		payload, _ := json.Marshal(contactData)
