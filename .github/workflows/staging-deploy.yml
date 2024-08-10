@@ -1,4 +1,4 @@
-name: Dev Deployment
+name: Staging Deployment
 
 on:
   workflow_dispatch:
@@ -53,6 +53,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
+          DB_HOST: ${{ secrets.DB_HOST }}
           POSTGRES_USER: ${{ secrets.USERNAME }}
           POSTGRES_PASSWORD: ${{ secrets.PASSWORD }}
           POSTGRES_DB: ${{ secrets.DB_NAME }}
