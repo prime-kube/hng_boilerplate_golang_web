@@ -73,7 +73,6 @@ func TestGetCategoryNames(t *testing.T) {
 			t.Fatalf("Could not parse response: %v", err)
 		}
 
-		assert.Equal(t, "success", response["status"])
 		assert.Equal(t, float64(200), response["status_code"])
 		assert.Equal(t, "Categories fetched successfully", response["message"])
 

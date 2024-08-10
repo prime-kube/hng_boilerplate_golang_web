@@ -40,13 +40,11 @@ func TestGetAllContactUs(t *testing.T) {
 	contact1 := models.ContactUs{
 		ID:      utility.GenerateUUID(),
 		Email:   fmt.Sprintf("contact%v@qa.team", currUUID),
-		Subject: fmt.Sprintf("First subject - %v ", currUUID),
 		Message: fmt.Sprintf("First test message - %v ", currUUID),
 	}
 	contact2 := models.ContactUs{
 		ID:      utility.GenerateUUID(),
 		Email:   fmt.Sprintf("contact2%v@qa.team", currUUID),
-		Subject: fmt.Sprintf("Second subject - %v ", currUUID),
 		Message: fmt.Sprintf("Second test message - %v ", currUUID),
 	}
 
@@ -149,7 +147,6 @@ func TestGetContactUsById(t *testing.T) {
 	contact := models.ContactUs{
 		ID:      utility.GenerateUUID(),
 		Email:   fmt.Sprintf("contact%v@qa.team", currUUID),
-		Subject: fmt.Sprintf("Test subject - %v ", currUUID),
 		Message: fmt.Sprintf("Test message - %v ", currUUID),
 	}
 
@@ -251,7 +248,6 @@ func TestGetContactUsByEmail(t *testing.T) {
 	contact := models.ContactUs{
 		ID:      utility.GenerateUUID(),
 		Email:   fmt.Sprintf("contact%v@qa.team", currUUID),
-		Subject: fmt.Sprintf("Test subject - %v ", currUUID),
 		Message: fmt.Sprintf("Test message - %v ", currUUID),
 	}
 
