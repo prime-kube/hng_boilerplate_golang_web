@@ -40,7 +40,6 @@ func TestDeleteContactUs(t *testing.T) {
 	contact := models.ContactUs{
 		ID:      utility.GenerateUUID(),
 		Email:   fmt.Sprintf("contact%v@qa.team", currUUID),
-		Subject: fmt.Sprintf("Test subject - %v ", currUUID),
 		Message: fmt.Sprintf("Test message - %v ", currUUID),
 	}
 

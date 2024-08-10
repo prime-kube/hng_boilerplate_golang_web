@@ -48,7 +48,6 @@ type SendSqueeze struct {
 type SendContactUsMail struct {
 	Name    string `json:"name"  validate:"required"`
 	Email   string `json:"email" `
-	Subject string `son:"subject" validate:"required"`
 	Message string `json:"message" validate:"required"`
 }
 
