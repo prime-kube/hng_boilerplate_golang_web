@@ -17,7 +17,7 @@ services:
     image: redis:latest
 
   backend:
-    image: golang_prod
+    image: golang_prod:latest
     build:
       context: .
     depends_on:
